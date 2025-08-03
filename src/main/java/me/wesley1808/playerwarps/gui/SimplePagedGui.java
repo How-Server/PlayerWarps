@@ -42,7 +42,7 @@ public class SimplePagedGui extends SimpleGui {
             switch (index) {
                 case 0 -> {
                     GuiElementBuilder builder = new GuiElementBuilder(Items.BARRIER);
-                    builder.setName(Component.literal("Close").withStyle(ChatFormatting.DARK_RED));
+                    builder.setName(Component.literal("關閉").withStyle(ChatFormatting.DARK_RED));
                     builder.setCallback((i, type, clickType) -> {
                         GuiHelper.playSound(this.player, SoundEvents.UI_BUTTON_CLICK);
                         this.close();
@@ -52,7 +52,7 @@ public class SimplePagedGui extends SimpleGui {
                 case 47 -> {
                     if (this.page > 0) {
                         GuiElementBuilder builder = new GuiElementBuilder(Items.ARROW);
-                        builder.setName(Component.literal("Prev"));
+                        builder.setName(Component.literal("上一頁"));
                         builder.setCallback((i, type, clickType) -> {
                             GuiHelper.playSound(this.player, SoundEvents.UI_BUTTON_CLICK);
                             this.page--;
@@ -66,7 +66,7 @@ public class SimplePagedGui extends SimpleGui {
                 case 51 -> {
                     if (this.page < this.maxPages) {
                         GuiElementBuilder builder = new GuiElementBuilder(Items.ARROW);
-                        builder.setName(Component.literal("Next"));
+                        builder.setName(Component.literal("下一頁"));
                         builder.setCallback((i, type, clickType) -> {
                             GuiHelper.playSound(this.player, SoundEvents.UI_BUTTON_CLICK);
                             this.page++;

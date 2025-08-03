@@ -290,7 +290,7 @@ public final class PlayerWarpCommand {
     }
 
     private static int openWarpGui(ServerPlayer player) {
-        SimplePagedGui gui = new SimplePagedGui("Player Warps", player);
+        SimplePagedGui gui = new SimplePagedGui("玩家公傳點", player);
         gui.setElements(initializeElements(player, gui));
         return gui.open() ? Command.SINGLE_SUCCESS : 0;
     }
@@ -309,7 +309,7 @@ public final class PlayerWarpCommand {
 
             GuiElementBuilder builder = new GuiElementBuilder(icon);
             builder.setName(warp.isDisabled()
-                    ? Component.literal("[Disabled] " + warp.getName()).withStyle(ChatFormatting.RED)
+                    ? Component.literal("[暫時停用] " + warp.getName()).withStyle(ChatFormatting.RED)
                     : Component.literal(warp.getName()).withStyle(ChatFormatting.GRAY)
             );
 
@@ -340,7 +340,7 @@ public final class PlayerWarpCommand {
 
     private static List<Component> getLore(MinecraftServer server, PlayerWarp warp) {
         List<Component> lore = new ObjectArrayList<>();
-        lore.add(Component.literal("Owner: ")
+        lore.add(Component.literal("主人: ")
                 .withStyle(ChatFormatting.DARK_GRAY)
                 .withStyle(style -> style.withItalic(false))
                 .append(Component.literal(warp.getOwnerName(server))
@@ -350,7 +350,7 @@ public final class PlayerWarpCommand {
         );
 
         lore.add(Component.empty());
-        lore.add(Component.literal("Visits: ")
+        lore.add(Component.literal("造訪次數: ")
                 .withStyle(ChatFormatting.DARK_GRAY)
                 .withStyle(style -> style.withItalic(false))
                 .append(Component.literal(String.valueOf(warp.getVisits()))
@@ -360,7 +360,7 @@ public final class PlayerWarpCommand {
         );
 
         lore.add(Component.empty());
-        lore.add(Component.literal("Coords: ")
+        lore.add(Component.literal("座標: ")
                 .withStyle(ChatFormatting.DARK_GRAY)
                 .withStyle(style -> style.withItalic(false))
                 .append(Component.literal(warp.blockPos.toShortString())
@@ -373,7 +373,7 @@ public final class PlayerWarpCommand {
 
         String description = warp.getDescription();
         if (description != null && !description.isEmpty()) {
-            lore.add(Component.literal("Description:")
+            lore.add(Component.literal("介紹:")
                     .withStyle(style -> style.withItalic(false))
                     .withStyle(ChatFormatting.DARK_GRAY)
             );
