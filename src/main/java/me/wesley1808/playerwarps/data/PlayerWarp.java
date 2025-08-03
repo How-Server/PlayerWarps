@@ -38,7 +38,11 @@ public class PlayerWarp extends Location implements Comparable<PlayerWarp> {
     private long lastMoved;
 
     public PlayerWarp(@NotNull UUID owner, @NotNull String name, ResourceLocation dim, BlockPos blockPos) {
-        super(dim, blockPos);
+        this(owner, name, dim, blockPos, 0.0f, 0.0f);
+    }
+
+    public PlayerWarp(@NotNull UUID owner, @NotNull String name, ResourceLocation dim, BlockPos blockPos, float yaw, float pitch) {
+        super(dim, blockPos, yaw, pitch);
         this.owner = owner;
         this.name = name;
         this.lastMoved = System.currentTimeMillis();
@@ -75,8 +79,14 @@ public class PlayerWarp extends Location implements Comparable<PlayerWarp> {
     }
 
     public void moveTo(ResourceLocation dim, BlockPos pos) {
+        this.moveTo(dim, pos, this.yaw, this.pitch);
+    }
+
+    public void moveTo(ResourceLocation dim, BlockPos pos, float yaw, float pitch) {
         this.dimension = dim;
         this.blockPos = pos;
+        this.yaw = yaw;
+        this.pitch = pitch;
         this.lastMoved = System.currentTimeMillis();
     }
 

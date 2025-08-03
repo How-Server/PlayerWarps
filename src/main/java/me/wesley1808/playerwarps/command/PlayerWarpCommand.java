@@ -221,13 +221,13 @@ public final class PlayerWarpCommand {
             return 0;
         }
 
-        Pair<ResourceLocation, BlockPos> loc = getValidPosition(
+        WarpPosition warpPos = getValidPosition(
                 player,
                 Config.instance().messages.worldCreateNotAllowed,
                 Config.instance().messages.createUnsafe
         );
 
-        if (!PlayerWarpManager.add(player.getUUID(), name, loc.first(), loc.second())) {
+        if (!PlayerWarpManager.add(player.getUUID(), name, warpPos.dimension, warpPos.blockPos, warpPos.yaw, warpPos.pitch)) {
             player.sendSystemMessage(Formatter.parse(Config.instance().messages.nameTaken.replace("${name}", name)));
             return 0;
         }
@@ -255,19 +255,19 @@ public final class PlayerWarpCommand {
             return 0;
         }
 
-        Pair<ResourceLocation, BlockPos> loc = getValidPosition(
+        WarpPosition warpPos = getValidPosition(
                 player,
                 Config.instance().messages.worldMoveNotAllowed,
                 Config.instance().messages.moveUnsafe
         );
 
-        warp.moveTo(loc.first(), loc.second());
+        warp.moveTo(warpPos.dimension, warpPos.blockPos, warpPos.yaw, warpPos.pitch);
 
         source.sendSuccess(() -> Formatter.parse(Config.instance().messages.warpMoved.replace("${name}", warpName)), false);
         return Command.SINGLE_SUCCESS;
     }
 
-    private static Pair<ResourceLocation, BlockPos> getValidPosition(ServerPlayer player, String worldBlacklisted, String positionUnsafe) throws CommandSyntaxException {
+    private static WarpPosition getValidPosition(ServerPlayer player, String worldBlacklisted, String positionUnsafe) throws CommandSyntaxException {
         ResourceLocation dimension = player.level().dimension().location();
         if (!Config.instance().pwarpAllowedWorlds.contains(dimension)) {
             throw Util.buildCommandException(worldBlacklisted);
@@ -280,7 +280,7 @@ public final class PlayerWarpCommand {
             throw Util.buildCommandException(positionUnsafe);
         }
 
-        return Pair.of(dimension, warpPos);
+        return new WarpPosition(dimension, warpPos, player.getYRot(), player.getXRot());
     }
 
     private static int visitWarp(ServerPlayer player, String name) throws CommandSyntaxException {
@@ -402,5 +402,19 @@ public final class PlayerWarpCommand {
         }
 
         return lore;
+    }
+
+    private static class WarpPosition {
+        public final ResourceLocation dimension;
+        public final BlockPos blockPos;
+        public final float yaw;
+        public final float pitch;
+
+        public WarpPosition(ResourceLocation dimension, BlockPos blockPos, float yaw, float pitch) {
+            this.dimension = dimension;
+            this.blockPos = blockPos;
+            this.yaw = yaw;
+            this.pitch = pitch;
+        }
     }
 }

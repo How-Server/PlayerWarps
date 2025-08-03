@@ -25,10 +25,20 @@ public class Location {
     public ResourceLocation dimension;
     @Expose
     public BlockPos blockPos;
+    @Expose
+    public float yaw;
+    @Expose
+    public float pitch;
 
     public Location(ResourceLocation dim, BlockPos blockPos) {
+        this(dim, blockPos, 0.0f, 0.0f);
+    }
+
+    public Location(ResourceLocation dim, BlockPos blockPos, float yaw, float pitch) {
         this.dimension = dim;
         this.blockPos = blockPos;
+        this.yaw = yaw;
+        this.pitch = pitch;
     }
 
     public void teleport(ServerPlayer player, boolean movementCheck, @Nullable Location.TeleportPredicate predicate) {
@@ -59,7 +69,7 @@ public class Location {
             return;
         }
 
-        player.teleportTo(world, this.blockPos.getX() + 0.5D, this.blockPos.getY(), this.blockPos.getZ() + 0.5D, Set.of(), player.getYRot(), player.getXRot(), true);
+        player.teleportTo(world, this.blockPos.getX() + 0.5D, this.blockPos.getY(), this.blockPos.getZ() + 0.5D, Set.of(), this.yaw, this.pitch, true);
         player.connection.resetPosition();
     }
 

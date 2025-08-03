@@ -71,7 +71,11 @@ public final class PlayerWarpManager {
     }
 
     public static boolean add(UUID owner, String name, ResourceLocation dim, BlockPos blockPos) {
-        return playerWarps.putIfAbsent(name, new PlayerWarp(owner, name, dim, blockPos)) == null;
+        return add(owner, name, dim, blockPos, 0.0f, 0.0f);
+    }
+
+    public static boolean add(UUID owner, String name, ResourceLocation dim, BlockPos blockPos, float yaw, float pitch) {
+        return playerWarps.putIfAbsent(name, new PlayerWarp(owner, name, dim, blockPos, yaw, pitch)) == null;
     }
 
     public static void remove(String name) {
