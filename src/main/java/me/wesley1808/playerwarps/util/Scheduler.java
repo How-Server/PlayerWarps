@@ -49,7 +49,7 @@ public class Scheduler {
         player.displayClientMessage(Formatter.parse(Config.instance().messages.tpSecondsLeft
                 .replace("${seconds}", String.valueOf(seconds))
                 .replace("seconds", seconds == 1 ? "second" : "seconds")
-        ), false);
+        ), true);
 
         schedule(1000, () -> teleportLoop(seconds - 1, server, uuid, oldPos, onSuccess, onFail));
     }
