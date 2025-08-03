@@ -35,6 +35,8 @@ dependencies {
     modImplementation(include("me.lucko:fabric-permissions-api:${project.permission_api_version}"))
     modImplementation(include("eu.pb4:placeholder-api:${project.placeholder_api_version}"))
     modImplementation(include("eu.pb4:sgui:${project.sgui_version}"))
+
+    modImplementation files('dependencies/ItsOurs-1.5.1+1.21.6.jar')
 }
 
 processResources {

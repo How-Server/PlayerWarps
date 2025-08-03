@@ -56,5 +56,7 @@ public class Config {
         public String warpMoveOnCooldown = "<red>You can move this warp again in ${duration}";
         public String unsafeTeleport = "<red>Teleport failed. Warp is unsafe to teleport to!";
         public String disabled = "<red>This warp is disabled!";
+        public String invalidIcon = "Invalid icon! Please use a valid item!";
+        public String noOneselfClaim = "<red>You must set a warp on your own claim!";
     }
 }

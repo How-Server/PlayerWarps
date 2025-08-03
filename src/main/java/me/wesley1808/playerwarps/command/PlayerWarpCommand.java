@@ -8,6 +8,8 @@ import eu.pb4.sgui.api.elements.GuiElementInterface;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import me.drex.itsours.claim.AbstractClaim;
+import me.drex.itsours.claim.list.ClaimList;
 import me.lucko.fabric.api.permissions.v0.Options;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import me.wesley1808.playerwarps.config.Config;
@@ -38,6 +40,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static net.minecraft.commands.Commands.argument;
@@ -186,6 +189,9 @@ public final class PlayerWarpCommand {
     private static int editWarpIcon(CommandSourceStack source, String warpName, Holder<Item> icon) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         PlayerWarp warp = PlayerWarpManager.getOwnedWarpOrException(source, player, warpName);
+        if (!icon.getRegisteredName().contains("minecraft:")) {
+            throw Util.buildCommandException(Config.instance().messages.invalidIcon);
+        }
         warp.setIcon(icon.value());
         source.sendSuccess(() -> Formatter.parse(Config.instance().messages.setWarpIcon.replace("${item}", BuiltInRegistries.ITEM.getKey(icon.value()).toString())), false);
         return Command.SINGLE_SUCCESS;
@@ -193,6 +199,12 @@ public final class PlayerWarpCommand {
 
     private static int createWarp(ServerPlayer player, String name) throws CommandSyntaxException {
         List<PlayerWarp> warps = PlayerWarpManager.getWarps(warp -> warp.getOwner().equals(player.getUUID()));
+        Optional<AbstractClaim> claim = ClaimList.getClaimAt(player.level(), player.blockPosition());
+        if (claim.isEmpty() || !claim.get().getOwner().equals(player.getUUID())) {
+            player.sendSystemMessage(Formatter.parse(Config.instance().messages.noOneselfClaim));
+            return 0;
+        }
+
         int maxWarps = Options.get(player, "playerwarps_max", 0, Integer::parseInt);
         if (warps.size() >= maxWarps && !player.hasPermissions(2)) {
             if (maxWarps == 0) {
