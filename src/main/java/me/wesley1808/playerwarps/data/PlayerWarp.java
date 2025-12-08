@@ -6,7 +6,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import me.wesley1808.playerwarps.config.Config;
 import me.wesley1808.playerwarps.util.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.NameAndId;
@@ -38,7 +38,7 @@ public class PlayerWarp extends Location implements Comparable<PlayerWarp> {
     @Expose
     private long lastMoved;
 
-    public PlayerWarp(@NotNull UUID owner, @NotNull String name, ResourceLocation dim, BlockPos blockPos) {
+    public PlayerWarp(@NotNull UUID owner, @NotNull String name, Identifier dim, BlockPos blockPos) {
         super(dim, blockPos);
         this.owner = owner;
         this.name = name;
@@ -75,7 +75,7 @@ public class PlayerWarp extends Location implements Comparable<PlayerWarp> {
         }
     }
 
-    public void moveTo(ResourceLocation dim, BlockPos pos) {
+    public void moveTo(Identifier dim, BlockPos pos) {
         this.dimension = dim;
         this.blockPos = pos;
         this.lastMoved = System.currentTimeMillis();

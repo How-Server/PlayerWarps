@@ -21,12 +21,13 @@ import me.wesley1808.playerwarps.util.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -194,7 +195,7 @@ public final class PlayerWarpCommand {
     private static int createWarp(ServerPlayer player, String name) throws CommandSyntaxException {
         List<PlayerWarp> warps = PlayerWarpManager.getWarps(warp -> warp.getOwner().equals(player.getUUID()));
         int maxWarps = Options.get(player, "playerwarps_max", 0, Integer::parseInt);
-        if (warps.size() >= maxWarps && !player.hasPermissions(2)) {
+        if (warps.size() >= maxWarps && !Commands.LEVEL_GAMEMASTERS.check(player.permissions())) {
             if (maxWarps == 0) {
                 player.sendSystemMessage(Formatter.parse(Config.instance().messages.noPermissionToCreate));
             } else {
@@ -209,7 +210,7 @@ public final class PlayerWarpCommand {
             return 0;
         }
 
-        Pair<ResourceLocation, BlockPos> loc = getValidPosition(
+        Pair<Identifier, BlockPos> loc = getValidPosition(
                 player,
                 Config.instance().messages.worldCreateNotAllowed,
                 Config.instance().messages.createUnsafe
@@ -243,7 +244,7 @@ public final class PlayerWarpCommand {
             return 0;
         }
 
-        Pair<ResourceLocation, BlockPos> loc = getValidPosition(
+        Pair<Identifier, BlockPos> loc = getValidPosition(
                 player,
                 Config.instance().messages.worldMoveNotAllowed,
                 Config.instance().messages.moveUnsafe
@@ -255,8 +256,8 @@ public final class PlayerWarpCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-    private static Pair<ResourceLocation, BlockPos> getValidPosition(ServerPlayer player, String worldBlacklisted, String positionUnsafe) throws CommandSyntaxException {
-        ResourceLocation dimension = player.level().dimension().location();
+    private static Pair<Identifier, BlockPos> getValidPosition(ServerPlayer player, String worldBlacklisted, String positionUnsafe) throws CommandSyntaxException {
+        Identifier dimension = player.level().dimension().identifier();
         if (!Config.instance().pwarpAllowedWorlds.contains(dimension)) {
             throw Util.buildCommandException(worldBlacklisted);
         }

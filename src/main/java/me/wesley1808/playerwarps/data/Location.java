@@ -11,7 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
@@ -22,11 +22,11 @@ import java.util.function.Predicate;
 
 public class Location {
     @Expose
-    public ResourceLocation dimension;
+    public Identifier dimension;
     @Expose
     public BlockPos blockPos;
 
-    public Location(ResourceLocation dim, BlockPos blockPos) {
+    public Location(Identifier dim, BlockPos blockPos) {
         this.dimension = dim;
         this.blockPos = blockPos;
     }

@@ -1,7 +1,7 @@
 package me.wesley1808.playerwarps.config;
 
 import com.google.common.collect.Sets;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Set;
 
@@ -13,10 +13,10 @@ public class Config {
     public int warpMoveCooldownSeconds = 86400;
     public boolean useStrictTeleportCheck = false;
 
-    public Set<ResourceLocation> pwarpAllowedWorlds = Sets.newHashSet(
-            ResourceLocation.withDefaultNamespace("overworld"),
-            ResourceLocation.withDefaultNamespace("the_nether"),
-            ResourceLocation.withDefaultNamespace("the_end")
+    public Set<Identifier> pwarpAllowedWorlds = Sets.newHashSet(
+            Identifier.withDefaultNamespace("overworld"),
+            Identifier.withDefaultNamespace("the_nether"),
+            Identifier.withDefaultNamespace("the_end")
     );
 
     public Messages messages = new Messages();
