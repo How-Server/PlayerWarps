@@ -70,7 +70,7 @@ public final class PlayerWarpManager {
         return warp;
     }
 
-    public static boolean add(UUID owner, String name, ResourceLocation dim, BlockPos blockPos) {
+    public static boolean add(UUID owner, String name, Identifier dim, BlockPos blockPos) {
         return add(owner, name, dim, blockPos, 0.0f, 0.0f);
     }
 

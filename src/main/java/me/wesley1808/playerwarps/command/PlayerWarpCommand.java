@@ -269,7 +269,7 @@ public final class PlayerWarpCommand {
     }
 
     private static WarpPosition getValidPosition(ServerPlayer player, String worldBlacklisted, String positionUnsafe) throws CommandSyntaxException {
-        ResourceLocation dimension = player.level().dimension().location();
+        Identifier dimension = player.level().dimension().identifier();
         if (!Config.instance().pwarpAllowedWorlds.contains(dimension)) {
             throw Util.buildCommandException(worldBlacklisted);
         }
@@ -406,12 +406,12 @@ public final class PlayerWarpCommand {
     }
 
     private static class WarpPosition {
-        public final ResourceLocation dimension;
+        public final Identifier dimension;
         public final BlockPos blockPos;
         public final float yaw;
         public final float pitch;
 
-        public WarpPosition(ResourceLocation dimension, BlockPos blockPos, float yaw, float pitch) {
+        public WarpPosition(Identifier dimension, BlockPos blockPos, float yaw, float pitch) {
             this.dimension = dimension;
             this.blockPos = blockPos;
             this.yaw = yaw;
