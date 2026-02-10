@@ -16,7 +16,7 @@ import me.wesley1808.playerwarps.util.Util;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
@@ -74,7 +74,7 @@ public final class PlayerWarpManager {
         return add(owner, name, dim, blockPos, 0.0f, 0.0f);
     }
 
-    public static boolean add(UUID owner, String name, ResourceLocation dim, BlockPos blockPos, float yaw, float pitch) {
+    public static boolean add(UUID owner, String name, Identifier dim, BlockPos blockPos, float yaw, float pitch) {
         return playerWarps.putIfAbsent(name, new PlayerWarp(owner, name, dim, blockPos, yaw, pitch)) == null;
     }
 

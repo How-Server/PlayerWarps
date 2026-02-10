@@ -22,7 +22,7 @@ import java.util.function.Predicate;
 
 public class Location {
     @Expose
-    public ResourceLocation dimension;
+    public Identifier dimension;
     @Expose
     public BlockPos blockPos;
     @Expose
@@ -30,11 +30,11 @@ public class Location {
     @Expose
     public float pitch;
 
-    public Location(ResourceLocation dim, BlockPos blockPos) {
+    public Location (Identifier dim, BlockPos blockPos) {
         this(dim, blockPos, 0.0f, 0.0f);
     }
 
-    public Location(ResourceLocation dim, BlockPos blockPos, float yaw, float pitch) {
+    public Location(Identifier dim, BlockPos blockPos, float yaw, float pitch) {
         this.dimension = dim;
         this.blockPos = blockPos;
         this.yaw = yaw;

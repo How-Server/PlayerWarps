@@ -8,7 +8,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 
 import java.lang.reflect.Type;
@@ -17,14 +17,14 @@ public class Json {
     private static final HolderLookup.Provider PROVIDER = RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
 
     public static final Gson CONFIG = new GsonBuilder()
-            .registerTypeHierarchyAdapter(ResourceLocation.class, new CodecSerializer<>(ResourceLocation.CODEC))
+            .registerTypeHierarchyAdapter(Identifier.class, new CodecSerializer<>(Identifier.CODEC))
             .disableHtmlEscaping()
             .setPrettyPrinting()
             .create();
 
     public static final Gson PLAYER_WARPS = new GsonBuilder()
             .registerTypeHierarchyAdapter(BlockPos.class, new BlockPosSerializer())
-            .registerTypeHierarchyAdapter(ResourceLocation.class, new CodecSerializer<>(ResourceLocation.CODEC))
+            .registerTypeHierarchyAdapter(Identifier.class, new CodecSerializer<>(Identifier.CODEC))
             .registerTypeHierarchyAdapter(Item.class, new RegistrySerializer<>(BuiltInRegistries.ITEM))
             .excludeFieldsWithoutExposeAnnotation()
             .disableHtmlEscaping()
@@ -58,7 +58,7 @@ public class Json {
         @Override
         public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             if (json.isJsonPrimitive()) {
-                return this.registry.getValue(ResourceLocation.tryParse(json.getAsString()));
+                return this.registry.getValue(Identifier.tryParse(json.getAsString()));
             }
             return null;
         }

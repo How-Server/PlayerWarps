@@ -6,9 +6,10 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import me.wesley1808.playerwarps.config.Config;
 import me.wesley1808.playerwarps.util.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.NameAndId;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,11 +38,11 @@ public class PlayerWarp extends Location implements Comparable<PlayerWarp> {
     @Expose
     private long lastMoved;
 
-    public PlayerWarp(@NotNull UUID owner, @NotNull String name, ResourceLocation dim, BlockPos blockPos) {
+    public PlayerWarp(@NotNull UUID owner, @NotNull String name, Identifier dim, BlockPos blockPos) {
         this(owner, name, dim, blockPos, 0.0f, 0.0f);
     }
 
-    public PlayerWarp(@NotNull UUID owner, @NotNull String name, ResourceLocation dim, BlockPos blockPos, float yaw, float pitch) {
+    public PlayerWarp(@NotNull UUID owner, @NotNull String name, Identifier dim, BlockPos blockPos, float yaw, float pitch) {
         super(dim, blockPos, yaw, pitch);
         this.owner = owner;
         this.name = name;
@@ -78,11 +79,11 @@ public class PlayerWarp extends Location implements Comparable<PlayerWarp> {
         }
     }
 
-    public void moveTo(ResourceLocation dim, BlockPos pos) {
+    public void moveTo(Identifier dim, BlockPos pos) {
         this.moveTo(dim, pos, this.yaw, this.pitch);
     }
 
-    public void moveTo(ResourceLocation dim, BlockPos pos, float yaw, float pitch) {
+    public void moveTo(Identifier dim, BlockPos pos, float yaw, float pitch) {
         this.dimension = dim;
         this.blockPos = pos;
         this.yaw = yaw;
@@ -125,7 +126,7 @@ public class PlayerWarp extends Location implements Comparable<PlayerWarp> {
     }
 
     public String getOwnerName(MinecraftServer server) {
-        return Util.asProfile(server, this.owner).map(GameProfile::getName).orElse(this.owner.toString());
+        return Util.asNameAndId(server, this.owner).map(NameAndId::name).orElse(this.owner.toString());
     }
 
     @Override
